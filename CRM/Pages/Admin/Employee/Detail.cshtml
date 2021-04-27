@@ -1,0 +1,156 @@
+﻿@page
+@using CRM.Utility
+@model CRM.Pages.Admin.Employee.DetailModel
+@{
+}
+@if (User.IsInRole(SD.RootRole) || User.IsInRole(SD.ManagerRole))
+{
+    <form method="post" asp-action="Detail">
+        <div class="container">
+            <div class="row px-2 mx-2 backgroundWhite border">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @if (Model.EmployeeObj.Employee.Id != 0)
+                {
+                    <input type="hidden" asp-for="EmployeeObj.Employee.Id" />
+                }
+
+                <div class="col-12 px-3" style="border-bottom:1px solid #325d88">
+                    <h2 class="text-primary page-header pb-3"> <i class="fa fa-info-circle" aria-hidden="true"></i> Employee Details</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-page="/User/Home/Index">Home</a></li>
+                        <li class="breadcrumb-item"><a asp-page="./Index">Employee</a></li>
+                        <li class="breadcrumb-item active">Employee Details</li>
+                    </ol>
+                </div>
+
+                <div class="col-8 pt-3">
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="EmployeeObj.Employee.Name"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control detail-form" asp-for="EmployeeObj.Employee.Name" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="EmployeeObj.Employee.Email"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control detail-form" asp-for="EmployeeObj.Employee.Email" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="EmployeeObj.Employee.Phone"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control detail-form" asp-for="EmployeeObj.Employee.Phone" disabled />
+                            <span class="text-danger" asp-validation-for="EmployeeObj.Employee.Phone"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="EmployeeObj.Employee.HiredDate"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="input-group date form-control detail-form unstyled" data-date-format="mm/dd/yyyy" asp-for="EmployeeObj.Employee.HiredDate" disabled />
+                            <span class="text-danger" asp-validation-for="EmployeeObj.Employee.HiredDate"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="EmployeeObj.Employee.Department"></label>
+                        </div>
+
+                        <div class="col-8">
+                            @Html.DropDownListFor(m => m.EmployeeObj.Employee.DepartmentId,
+                                                  Model.EmployeeObj.DepartmentList,
+                                                  "- Please select a Department -",
+                                                  new { @class = "form-control detail-form", @disabled = "disabled" })
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="EmployeeObj.Employee.Position"></label>
+                        </div>
+
+                        <div class="col-8">
+                            @Html.DropDownListFor(m => m.EmployeeObj.Employee.PositionId,
+                                                  Model.EmployeeObj.PositionList,
+                                                  "- Please select a Position -",
+                                                  new { @class = "form-control detail-form", @disabled = "disabled" })
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label>Status</label>
+                        </div>
+
+                        <div class="col-8">
+                            @if (Model.EmployeeObj.Employee.Status)
+                            {
+                                <b class="text-danger">Inactive</b>
+                            }
+                            else
+                            {
+                                <b class="text-primary">Active</b>
+
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-8 offset-4">
+                            <div class="row">
+                                <div class="col-6 pt-4">
+                                    <button type="submit" onclick="return ValidateInput()" class="btn btn-danger form-control"><i class="fas fa-exclamation-triangle"></i> Inactivate</button>
+                                </div>
+                                <div class="col-6 pt-4">
+                                    <a asp-page="./Index" class="btn btn-success form-control"><i class="fas fa-arrow-circle-left"></i> Back To List</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.EmployeeObj.Employee != null)
+                {
+                    <div class="col-4 p-4">
+                        <img src="@Model.EmployeeObj.Employee.Image" width="100%" style="border-radius:5px;border:1px solid #bbb9b9" />
+                    </div>
+                }
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <div class="container-lg">
+        <img style="padding-left:70px;" src="~/images/Access-Denied.png" />
+    </div>
+}
+@section Scripts{
+    <script>
+        function ValidateInput() {
+
+            //toastr.warning('You have disabled the employee', 'warning');
+            swal("Warning", "You have disabled the employee", "info")
+            toastr.options.timeOut = 8000;
+            swal.options.timeOut = 3000;
+            return true;
+        };
+
+
+    </script>
+}

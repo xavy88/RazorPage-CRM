@@ -1,0 +1,194 @@
+﻿@page
+@using CRM.Utility
+@model CRM.Pages.Sale.Detail.UpsertModel
+@{
+}
+@if (User.IsInRole(SD.ManagerRole) || User.IsInRole(SD.RootRole) || User.IsInRole(SD.SupervisorRole) || User.IsInRole(SD.SalesRole))
+{
+    <form method="post" asp-action="Upsert">
+        <div class="container">
+            <div class="row px-2 mx-2 backgroundWhite border">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @if (Model.DetailObj.Detail.Id != 0)
+                {
+                    <input type="hidden" asp-for="DetailObj.Detail.Id" />
+                }
+
+                <div class="col-12 px-3" style="border-bottom:1px solid #325d88">
+                    <h2 class="text-primary">
+                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                        @(Model.DetailObj.Detail.Id!=0?"Update" : "Create") Detail
+                    </h2>
+                </div>
+
+                <div class="col-8 pt-3">
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="DetailObj.Detail.PaymentID"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control" asp-for="DetailObj.Detail.PaymentID" />
+                            <span class="text-danger" asp-validation-for="DetailObj.Detail.PaymentID"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="DetailObj.Detail.Order"></label>
+                        </div>
+
+                        <div class="col-8">
+                            @Html.DropDownListFor(m => m.DetailObj.Detail.OrderId,
+                                                 Model.DetailObj.OrderList,
+                                                 "- Please select an Order -",
+                                                 new { @class = "form-control" })
+                            <span class="text-danger" asp-validation-for="DetailObj.Detail.OrderId"></span>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="DetailObj.Detail.Account"></label>
+                        </div>
+
+                        <div class="col-8">
+                            @Html.DropDownListFor(m => m.DetailObj.Detail.AccountId,
+                                                 Model.DetailObj.AccountList,
+                                                 "- Please select an Account -",
+                                                 new { @class = "form-control" })
+                            <span class="text-danger" asp-validation-for="DetailObj.Detail.AccountId"></span>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="DetailObj.Detail.Department"></label>
+                        </div>
+
+                        <div class="col-8">
+                            @Html.DropDownListFor(m => m.DetailObj.Detail.DepartmentId,
+                                                 Model.DetailObj.DepartmentList,
+                                                 "- Please select a Department -",
+                                                 new { @class = "form-control" })
+                            <span class="text-danger" asp-validation-for="DetailObj.Detail.DepartmentId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="DetailObj.Detail.Service"></label>
+                        </div>
+
+                        <div class="col-8">
+                            @Html.DropDownListFor(m => m.DetailObj.Detail.ServiceId,
+                                                 Model.DetailObj.ServiceList,
+                                                 "- Please select a Service -",
+                                                 new { @class = "form-control" })
+                            <span class="text-danger" asp-validation-for="DetailObj.Detail.ServiceId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="DetailObj.Detail.Amount"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input type="text" class="form-control" asp-for="DetailObj.Detail.Amount">
+                            <span class="text-danger" asp-validation-for="DetailObj.Detail.Amount"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="DetailObj.Detail.PaymentDate"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input type="date" class="form-control" asp-for="DetailObj.Detail.PaymentDate">
+                            <span class="text-danger" asp-validation-for="DetailObj.Detail.PaymentDate"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="DetailObj.Detail.ApplicationUser"></label>
+                        </div>
+
+                        <div class="col-8">
+                            @Html.DropDownListFor(m => m.DetailObj.Detail.ApplicationUserId,
+                                                 Model.DetailObj.ApplicationUserList,
+                                                 "- Please select a Responsible -",
+                                                 new { @class = "form-control" })
+                            <span class="text-danger" asp-validation-for="DetailObj.Detail.ApplicationUserId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="DetailObj.Detail.Employee"></label>
+                        </div>
+
+                        <div class="col-8">
+                            @Html.DropDownListFor(m => m.DetailObj.Detail.EmployeeId,
+                                                 Model.DetailObj.EmployeeList,
+                                                 "- Who sold the service -",
+                                                 new { @class = "form-control" })
+                            <span class="text-danger" asp-validation-for="DetailObj.Detail.EmployeeId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="DetailObj.Detail.Notes"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <textarea class="form-control" asp-for="DetailObj.Detail.Notes"></textarea>
+                            <span class="text-danger" asp-validation-for="DetailObj.Detail.Notes"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="col-8 offset-4">
+                            <div class="row">
+                                <div class="col-6">
+
+                                    <button type="submit" class="btn btn-primary form-control"><i class="fas fa-clipboard-check"></i> @(Model.DetailObj.Detail.Id!=0?"Update" : "Create")</button>
+
+                                </div>
+                                <div class="col-6">
+                                    <a asp-page="./Index" class="btn btn-success form-control"> <i class="fas fa-arrow-circle-left"></i> Back To List</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.DetailObj.Detail.Id != 0)
+                {
+                    <div class="col-4 p-4">
+                        <img src="~/images/Edit-Item.png" width="100%" style="border-radius:5px;border:1px solid #bbb9b9" />
+                    </div>
+                }
+                else
+                {
+                    <div class="col-4 p-4">
+                        <img src="/images/Create-Item.png" width="100%" style="border-radius:5px;border:1px solid #bbb9b9" />
+                    </div>
+                }
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <div class="container-lg">
+        <img style="padding-left:70px;" src="~/images/Access-Denied.png" />
+    </div>
+}
+@section Scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: "lists",
+            menubar: 'file edit format'
+        });
+
+    </script>
+
+}

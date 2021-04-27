@@ -1,0 +1,133 @@
+﻿@page
+@using CRM.Utility
+@model CRM.Pages.Supervisor.Contact.UpsertModel
+@{
+}
+@if (User.IsInRole(SD.ManagerRole) || User.IsInRole(SD.RootRole) || User.IsInRole(SD.SupervisorRole))
+{
+    <form method="post" asp-action="Upsert">
+        <div class="container">
+            <div class="row px-2 mx-2 backgroundWhite border">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @if (Model.ContactObj.Contact.Id != 0)
+                {
+                    <input type="hidden" asp-for="ContactObj.Contact.Id" />
+                }
+
+                <div class="col-12 px-3" style="border-bottom:1px solid #325d88">
+                    <h2 class="text-primary"><i class="fa fa-cogs" aria-hidden="true"></i> @(Model.ContactObj.Contact.Id!=0?"Update" : "Create") Service</h2>
+                </div>
+
+                <div class="col-8 pt-3">
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="ContactObj.Contact.Name"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control" asp-for="ContactObj.Contact.Name" />
+                            <span class="text-danger" asp-validation-for="ContactObj.Contact.Name"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="ContactObj.Contact.Email"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control" asp-for="ContactObj.Contact.Email" />
+                            <span class="text-danger" asp-validation-for="ContactObj.Contact.Email"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="ContactObj.Contact.Phone"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control" asp-for="ContactObj.Contact.Phone" />
+                            <span class="text-danger" asp-validation-for="ContactObj.Contact.Phone"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="ContactObj.Contact.Position"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control" asp-for="ContactObj.Contact.Position" />
+                            <span class="text-danger" asp-validation-for="ContactObj.Contact.Position"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="ContactObj.Contact.AccountId"></label>
+                        </div>
+
+                        <div class="col-8">
+                            @Html.DropDownListFor(m => m.ContactObj.Contact.AccountId,
+                                                  Model.ContactObj.AccountList,
+                                                  "- Please select an Account -",
+                                                  new { @class = "form-control" })
+                            <span class="text-danger" asp-validation-for="ContactObj.Contact.AccountId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="ContactObj.Contact.Description"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <textarea class="form-control" asp-for="ContactObj.Contact.Description" id="txtDesc" style="height:200px;"></textarea>
+                            <span class="text-danger" asp-validation-for="ContactObj.Contact.Description"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-8 offset-4">
+                            <div class="row">
+                                <div class="col-6">
+
+                                    <button type="submit" class="btn btn-primary form-control"> <i class="fas fa-clipboard-check"></i> @(Model.ContactObj.Contact.Id!=0?"Update" : "Create")</button>
+
+                                </div>
+                                <div class="col-6">
+                                    <a asp-page="./Index" class="btn btn-success form-control"><i class="fas fa-arrow-circle-left"></i> Back To List</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.ContactObj.Contact.Id != 0)
+                {
+                    <div class="col-4" style="padding-top: 4em;">
+                        <img src="~/images/Edit-Item.png" width="100%" />
+                    </div>
+                }
+                else
+                {
+                    <div class="col-4" style="padding-top: 4em;">
+                        <img src="/images/Create-Item.png" width="100%" />
+                    </div>
+                }
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <div class="container-lg">
+        <img style="padding-left:70px;" src="~/images/Access-Denied.png" />
+    </div>
+}
+@section Scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: "lists",
+            menubar: 'file edit format'
+        });
+    </script>
+}

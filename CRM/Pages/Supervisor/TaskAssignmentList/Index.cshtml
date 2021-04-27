@@ -1,0 +1,122 @@
+﻿@page
+@using CRM.Utility
+@model CRM.Pages.Supervisor.TaskAssignmentList.IndexModel
+@{
+}
+
+@{
+    var deptName = HttpContext.Request.Query["deptName"];
+    var SEO = "text-primary";
+    var PPC = "text-primary";
+    var WEB = "text-primary";
+    var APP = "text-primary";
+    var SALES = "text-primary";
+    var SM = "text-primary";
+    var ALL = "text-primary";
+
+    if (deptName == "SEO")
+    {
+        SEO = "active text-white";
+    }
+    else
+    {
+        if (deptName == "PPC")
+        {
+            PPC = "active text-white";
+        }
+        else
+        {
+            if (deptName == "APP")
+            {
+                APP = "active text-white";
+            }
+            else
+            {
+                if (deptName == "WEB")
+                {
+                    WEB = "active text-white";
+                }
+                else
+                {
+                    if (deptName == "SM")
+                    {
+                        SM = "active text-white";
+                    }
+                    else
+                    {
+                        if (deptName == "SALES")
+                        {
+                            SALES = "active text-white";
+                        }
+                        else
+                        {
+                            ALL = "active text-white";
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+}
+@if (User.IsInRole(SD.ManagerRole) || User.IsInRole(SD.RootRole) || User.IsInRole(SD.SupervisorRole))
+{
+    <div class="border backgroundWhite container">
+        <div class="d-flex justify-content-between mb-3">
+            <div class="p-2">
+                <h2 class="text-primary"><i class="fa fa-check-square-o" aria-hidden="true"></i> Task List</h2>
+            </div>
+
+            <div class="p-2">
+                <ul class="list-group list-group-horizontal-sm">
+                    <a href="/Supervisor/TaskAssignmentList?deptName=SEO" style="text-decoration:none;">
+                        <li class="list-group-item @SEO"> SEO </li>
+                    </a>
+                    <a href="/Supervisor/TaskAssignmentList?deptName=PPC" style="text-decoration:none;">
+                        <li class="list-group-item @PPC"> PPC </li>
+                    </a>
+                    <a href="/Supervisor/TaskAssignmentList?deptName=WEB" style="text-decoration:none;">
+                        <li class="list-group-item @WEB"> WEB </li>
+                    </a>
+                    <a href="/Supervisor/TaskAssignmentList?deptName=APP" style="text-decoration:none;">
+                        <li class="list-group-item @APP"> APP </li>
+                    </a>
+                    <a href="/Supervisor/TaskAssignmentList?deptName=SM" style="text-decoration:none;">
+                        <li class="list-group-item @SM"> SM </li>
+                    </a>
+                    <a href="/Supervisor/TaskAssignmentList?deptName=SALES" style="text-decoration:none;">
+                        <li class="list-group-item @SALES"> SALES </li>
+                    </a>
+                    <a href="/Supervisor/TaskAssignmentList" style="text-decoration:none;">
+                        <li class="list-group-item @ALL"> ALL </li>
+                    </a>
+                </ul>
+            </div>
+
+        </div>
+        <br /><br />
+        <table id="DT_load" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Account</th>
+                    <th>Task</th>
+                    <th>Assigne</th>
+                    <th>Due Date</th>
+                    <th>Completed</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+}
+else
+{
+    <div class="container-lg">
+        <img style="padding-left:70px;" src="~/images/Access-Denied.png" />
+    </div>
+}
+@section Scripts{
+    <script src="~/js/taskassignmentlist.js"></script>
+}

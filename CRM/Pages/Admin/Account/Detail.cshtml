@@ -1,0 +1,152 @@
+﻿@page
+@using CRM.Utility
+@model CRM.Pages.Admin.Account.DetailModel
+@{
+}
+@if (User.IsInRole(SD.ManagerRole) || User.IsInRole(SD.RootRole))
+{
+    <form method="post" asp-action="Detail" enctype="multipart/form-data">
+        <div class="container">
+            <div class="row px-2 mx-2 backgroundWhite border">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @if (Model.AccountObj.Id != 0)
+                {
+                    <input type="hidden" asp-for="AccountObj.Id" />
+                }
+
+                <div class="col-12 px-3" style="border-bottom:1px solid #325d88">
+                    <h2 class="text-primary page-header pb-3"><i class="fa fa-info-circle" aria-hidden="true"></i> Account Details</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-page="/User/Home/Index">Home</a></li>
+                        <li class="breadcrumb-item"><a asp-page="./Index">Account</a></li>
+                        <li class="breadcrumb-item active">Account Details</li>
+                    </ol>
+                </div>
+                <div class="col-8 pt-3">
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="AccountObj.Name"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control detail-form" asp-for="AccountObj.Name" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="AccountObj.Email"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control detail-form" asp-for="AccountObj.Email" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="AccountObj.Phone"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control detail-form" asp-for="AccountObj.Phone" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="AccountObj.SalesDate"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="input-group date form-control detail-form unstyled" data-date-format="mm/dd/yyyy" asp-for="AccountObj.SalesDate" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="AccountObj.Website"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control detail-form" asp-for="AccountObj.Website" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="AccountObj.Address"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <textarea class="form-control detail-form" asp-for="AccountObj.Address" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="AccountObj.Description"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <textarea class="form-control detail-form" asp-for="AccountObj.Description" id="txtDesc" style="height:200px;" readonly></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label>Status</label>
+                        </div>
+
+                        <div class="col-8">
+                            @if (Model.AccountObj.Status)
+                            {
+                                <b class="text-danger">Inactive</b>
+                            }
+                            else
+                            {
+                                <b class="text-primary">Active</b>
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-8 offset-4">
+                            <div class="row">
+                                <div class="col-6 pt-4">
+                                    <button type="submit" class="btn btn-danger form-control"><i class="fas fa-exclamation-triangle"></i> Disable</button>
+
+                                </div>
+                                <div class="col-6 pt-4">
+                                    <a asp-page="./Index" class="btn btn-success form-control"> <i class="fas fa-arrow-circle-left"></i>  Back To List</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.AccountObj != null)
+                {
+                    <div class="col-4 p-4">
+                        <img src="@Model.AccountObj.Image" width="100%" style="border-radius:5px;border:1px solid #bbb9b9" />
+                    </div>
+                }
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <div class="container-lg">
+        <img style="padding-left:70px;" src="~/images/Access-Denied.png" />
+    </div>
+}
+@section Scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: "lists",
+            readonly: 1,
+            menubar: 'file edit format'
+        });
+
+    </script>
+
+}

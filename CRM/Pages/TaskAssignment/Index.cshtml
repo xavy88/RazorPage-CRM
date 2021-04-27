@@ -1,0 +1,40 @@
+﻿@page
+@using CRM.Utility
+@model CRM.Pages.TaskAssignment.IndexModel
+@{
+}
+@if (User.IsInRole(SD.ManagerRole) || User.IsInRole(SD.RootRole) || User.IsInRole(SD.SupervisorRole))
+{
+    <div class="border backgroundWhite container">
+        <div class="row">
+            <div class="col-6">
+                <h2 class="text-primary"><i class="fa fa-check-square-o" aria-hidden="true"></i> Task List</h2>
+            </div>
+            <div class="col-6 text-right">
+                <a asp-page="Upsert" class="btn btn-primary"><i class="fas fa-plus"></i> &nbsp; Create New</a>
+            </div>
+        </div>
+        <br /><br />
+        <table id="DT_load" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Account</th>
+                    <th>Task</th>
+                    <th>Assigne</th>
+                    <th>Due Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+}
+else
+{
+    <div class="container-lg">
+        <img style="padding-left:70px;" src="~/images/Access-Denied.png" />
+    </div>
+}
+@section Scripts{
+    <script src="~/js/taskassignment.js"></script>
+}

@@ -1,0 +1,103 @@
+﻿@page
+@using CRM.Utility
+@model CRM.Pages.Supervisor.Service.DetailModel
+@{
+}
+@if (User.IsInRole(SD.ManagerRole) || User.IsInRole(SD.RootRole) || User.IsInRole(SD.SupervisorRole))
+{
+    <form method="post" asp-action="Detail">
+        <div class="container">
+            <div class="row px-2 mx-2 backgroundWhite border">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @if (Model.ServiceObj.Service.Id != 0)
+                {
+                    <input type="hidden" asp-for="ServiceObj.Service.Id" />
+                }
+
+                <div class="col-12 px-3" style="border-bottom:1px solid #325d88">
+                    <h2 class="text-primary page-header pb-3"> <i class="fa fa-info-circle" aria-hidden="true"></i> Service Details</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-page="/User/Home/Index">Home</a></li>
+                        <li class="breadcrumb-item"><a asp-page="./Index">Service</a></li>
+                        <li class="breadcrumb-item active">Service Details</li>
+                    </ol>
+                </div>
+
+                <div class="col-8 pt-3">
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="ServiceObj.Service.Name"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control detail-form" asp-for="ServiceObj.Service.Name" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="ServiceObj.Service.Price"> </label>
+                        </div>
+
+                        <div class="col-8">
+                            <input class="form-control detail-form" $ asp-for="ServiceObj.Service.Price" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="ServiceObj.Service.DepartmentId"></label>
+                        </div>
+
+                        <div class="col-8">
+                            @Html.DropDownListFor(m => m.ServiceObj.Service.DepartmentId,
+                                                  Model.ServiceObj.DepartmentList,
+                                                  "- Please select a Department -",
+                                                  new { @class = "form-control detail-form", @disabled = "disabled" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="ServiceObj.Service.Description"></label>
+                        </div>
+
+                        <div class="col-8">
+                            <textarea class="form-control detail-form" asp-for="ServiceObj.Service.Description" id="txtDesc" style="height:100px;" disabled></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-8 offset-4">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a asp-page="./Index" class="btn btn-success form-control"> <i class="fas fa-arrow-circle-left"></i> Back To List</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4" style="padding-top: 4em;">
+                    <img src="~/images/Ser-det.png" width="100%" />
+                </div>
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <div class="container-lg">
+        <img style="padding-left:70px;" src="~/images/Access-Denied.png" />
+    </div>
+}
+@section Scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: "lists",
+            readonly: 1,
+            menubar: 'file edit format'
+        });
+
+    </script>
+
+}

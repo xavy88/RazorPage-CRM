@@ -1,0 +1,143 @@
+﻿@page
+@model CRM.Pages.Admin.Employee.UpsertModel
+@{
+}
+
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+    <div class="container">
+        <div class="row px-2 mx-2 backgroundWhite border">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @if (Model.EmployeeObj.Employee.Id != 0)
+            {
+                <input type="hidden" asp-for="EmployeeObj.Employee.Id" />
+            }
+
+            <div class="col-12 px-3" style="border-bottom:1px solid #325d88">
+                <h2 class="text-primary"><i class="fa fa-cogs" aria-hidden="true"></i> @(Model.EmployeeObj.Employee.Id!=0?"Update" : "Create") Employee</h2>
+            </div>
+
+            <div class="col-8 pt-3">
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="EmployeeObj.Employee.Name"></label>
+                    </div>
+
+                    <div class="col-8">
+                        <input class="form-control" asp-for="EmployeeObj.Employee.Name" />
+                        <span class="text-danger" asp-validation-for="EmployeeObj.Employee.Name"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="EmployeeObj.Employee.Email"></label>
+                    </div>
+
+                    <div class="col-8">
+                        <input class="form-control" asp-for="EmployeeObj.Employee.Email" />
+                        <span class="text-danger" asp-validation-for="EmployeeObj.Employee.Email"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="EmployeeObj.Employee.Phone"></label>
+                    </div>
+
+                    <div class="col-8">
+                        <input class="form-control" asp-for="EmployeeObj.Employee.Phone" />
+                        <span class="text-danger" asp-validation-for="EmployeeObj.Employee.Phone"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="EmployeeObj.Employee.HiredDate"></label>
+                    </div>
+
+                    <div class="col-8">
+                        <input class="input-group date form-control" data-date-format="mm/dd/yyyy" asp-for="EmployeeObj.Employee.HiredDate" />
+                        <span class="text-danger" asp-validation-for="EmployeeObj.Employee.HiredDate"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="EmployeeObj.Employee.DepartmentId"></label>
+                    </div>
+
+                    <div class="col-8">
+                        @Html.DropDownListFor(m => m.EmployeeObj.Employee.DepartmentId,
+                                              Model.EmployeeObj.DepartmentList,
+                                              "- Please select a Department -",
+                                              new { @class = "form-control" })
+                        <span class="text-danger" asp-validation-for="EmployeeObj.Employee.DepartmentId"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="EmployeeObj.Employee.PositionId"></label>
+                    </div>
+
+                    <div class="col-8">
+                        @Html.DropDownListFor(m => m.EmployeeObj.Employee.PositionId,
+                                              Model.EmployeeObj.PositionList,
+                                              "- Please select a Position -",
+                                              new { @class = "form-control" })
+                        <span class="text-danger" asp-validation-for="EmployeeObj.Employee.PositionId"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="EmployeeObj.Employee.Image"></label>
+                    </div>
+
+                    <div class="col-8">
+                        <input type="file" class="form-control" name="files" id="uploadBox">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+
+                    <div class="col-8 offset-4">
+                        <div class="row">
+                            <div class="col-6">
+                                @if (Model.EmployeeObj.Employee.Id != 0)
+                                {
+                                    <button type="submit" class="btn btn-primary form-control"><i class="fas fa-clipboard-check"></i> Update</button>
+                                }
+                                else
+                                {
+                                    <button type="submit" onclick="return ValidateInput()" class="btn btn-primary form-control"><i class="fas fa-plus-circle"></i> Create</button>
+                                }
+
+
+                            </div>
+                            <div class="col-6">
+                                <a asp-page="./Index" class="btn btn-success form-control"><i class="fas fa-arrow-circle-left"></i> Back To List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.EmployeeObj.Employee != null)
+            {
+                <div class="col-4 p-4">
+                    <img src="@Model.EmployeeObj.Employee.Image" width="100%" style="border-radius:5px;border:1px solid #bbb9b9" />
+                </div>
+            }
+        </div>
+    </div>
+</form>
+
+@section Scripts{ 
+         <script>
+             function ValidateInput() {
+                 if (document.getElementById("uploadBox").value =="") {
+                     swal("Error", "Please Select an Image", "error")
+                     return false;
+                 }
+                 return true;
+             };
+         </script>
+
+
+}
